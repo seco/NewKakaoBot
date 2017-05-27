@@ -1,27 +1,11 @@
 package com.astro.kakaobot;
 
 public class Type {
-    public static class Message {
-        public String room;
-        public String sender;
-        public String message;
-    }
-
-    public static class Project {
-        public ProjectType type;
-        public String title;
-        public String subtitle;
-        public boolean enable;
-
-        @Deprecated
-        public String isError;
-    }
-
     public enum ProjectType {
-        JS("js"),
-        PYTHON("py");
+        JS("js");
 
         private String type;
+
         ProjectType(String type) {
             this.type = type;
         }
@@ -30,5 +14,20 @@ public class Type {
         public String toString() {
             return type;
         }
+    }
+
+    public static class Message {
+        public String message;
+        public String room;
+        public String sender;
+    }
+
+    public static class Project {
+        public boolean enable;
+        @Deprecated
+        public String isError;
+        public String subtitle;
+        public String title;
+        public ProjectType type;
     }
 }

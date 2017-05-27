@@ -7,16 +7,16 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.annotations.JSStaticFunction;
 
-import java.util.ArrayList;
-
-import static com.suyong.kakaobot.KakaoTalkListener.getSessions;
-
 public class JSKakaoTalk extends ScriptableObject {
-    public JSKakaoTalk() {}
+    public JSKakaoTalk() {
+    }
 
-    @Override
-    public String getClassName() {
-        return "KakaoTalk";
+    @JSStaticFunction
+    public static Object getContext() {
+        Context jsContext = KakaoTalkListener.getJsEngines()[0].getContext();
+        ScriptableObject scope = KakaoTalkListener.getJsEngines()[0].getScope();
+
+        return jsContext.javaToJS(MainActivity.getContext(), scope);
     }
 
     @JSStaticFunction
@@ -29,11 +29,8 @@ public class JSKakaoTalk extends ScriptableObject {
         }
     }
 
-    @JSStaticFunction
-    public static Object getContext() {
-        Context jsContext = KakaoTalkListener.getJsEngines()[0].getContext();
-        ScriptableObject scope = KakaoTalkListener.getJsEngines()[0].getScope();
-
-        return jsContext.javaToJS(MainActivity.getContext(), scope);
+    @Override
+    public String getClassName() {
+        return "KakaoTalk";
     }
 }

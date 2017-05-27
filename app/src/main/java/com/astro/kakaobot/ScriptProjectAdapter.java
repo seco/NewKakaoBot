@@ -1,11 +1,9 @@
 package com.astro.kakaobot;
 
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,24 +13,44 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import org.mozilla.javascript.tools.debugger.Main;
-
 import java.util.ArrayList;
 
 public class ScriptProjectAdapter extends RecyclerView.Adapter {
-    private ArrayList<Type.Project> list = new ArrayList<>();
     private MainActivity activity;
+    private ArrayList<Type.Project> list = new ArrayList<>();
 
     public ScriptProjectAdapter(ArrayList<Type.Project> list, MainActivity activity) {
         this.list = list;
         this.activity = activity;
     }
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.script_list_layout, parent, false);
+    private void disableAll(ViewGroup group) {
+        for (int i = 0; i < group.getChildCount(); i++) {
+            View child = group.getChildAt(i);
+            if (child.getId() != R.id.setting) {
+                child.setEnabled(false);
+            }
+            if (child instanceof ViewGroup) {
+                disableAll((ViewGroup) child);
+            }
+        }
+    }
 
-        return new Holder(itemView);
+    private void enableAll(ViewGroup group) {
+        for (int i = 0; i < group.getChildCount(); i++) {
+            View child = group.getChildAt(i);
+            if (child.getId() != R.id.setting) {
+                child.setEnabled(true);
+            }
+            if (child instanceof ViewGroup) {
+                enableAll((ViewGroup) child);
+            }
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return list.size();
     }
 
     @Override
@@ -44,9 +62,6 @@ public class ScriptProjectAdapter extends RecyclerView.Adapter {
             case JS:
                 holder.icon.setImageResource(R.drawable.image_javascript);
                 break;
-            case PYTHON:
-                holder.icon.setImageResource(R.drawable.image_python);
-                break;
         }
 
         holder.title.setText(project.title);
@@ -56,7 +71,7 @@ public class ScriptProjectAdapter extends RecyclerView.Adapter {
         holder.setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(holder.settingPopup == null) {
+                if (holder.settingPopup == null) {
                     holder.settingPopup = new SettingPopup(list.get(position), activity);
                 }
                 holder.settingPopup.setProject(list.get(position));
@@ -65,12 +80,12 @@ public class ScriptProjectAdapter extends RecyclerView.Adapter {
             }
         });
 
-        if(project.isError != null) {
+        if (project.isError != null) {
             holder.warning.setVisibility(View.VISIBLE);
             holder.warning.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(holder.popup == null) {
+                    if (holder.popup == null) {
                         LinearLayout layout = new LinearLayout(holder.itemView.getContext());
                         CardView card = new CardView(holder.itemView.getContext());
                         TextView text = new TextView(holder.itemView.getContext());
@@ -94,7 +109,7 @@ public class ScriptProjectAdapter extends RecyclerView.Adapter {
                         holder.popup.setOutsideTouchable(true);
                     }
 
-                    if(!holder.popup.isShowing()) {
+                    if (!holder.popup.isShowing()) {
                         holder.popup.showAsDropDown(view);
                     } else {
                         holder.popup.dismiss();
@@ -102,7 +117,7 @@ public class ScriptProjectAdapter extends RecyclerView.Adapter {
                 }
             });
         }
-        if(!project.enable) {
+        if (!project.enable) {
             disableAll((ViewGroup) originHolder.itemView);
         } else {
             enableAll((ViewGroup) originHolder.itemView);
@@ -110,8 +125,10 @@ public class ScriptProjectAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public int getItemCount() {
-        return list.size();
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.script_list_layout, parent, false);
+
+        return new Holder(itemView);
     }
 
     public void setList(ArrayList<Type.Project> list) {
@@ -119,37 +136,14 @@ public class ScriptProjectAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    private void disableAll(ViewGroup group) {
-        for(int i = 0; i < group.getChildCount(); i++) {
-            View child = group.getChildAt(i);
-            if(child.getId() != R.id.setting) {
-                child.setEnabled(false);
-            }
-            if (child instanceof ViewGroup) {
-                disableAll((ViewGroup) child);
-            }
-        }
-    }
-    private void enableAll(ViewGroup group) {
-        for(int i = 0; i < group.getChildCount(); i++) {
-            View child = group.getChildAt(i);
-            if(child.getId() != R.id.setting) {
-                child.setEnabled(true);
-            }
-            if (child instanceof ViewGroup) {
-                enableAll((ViewGroup) child);
-            }
-        }
-    }
-
     public static class Holder extends RecyclerView.ViewHolder {
-        public TextView title;
-        public TextView subtitle;
-        public ImageButton setting;
-        public ImageButton warning;
         public ImageView icon;
         public PopupWindow popup;
+        public ImageButton setting;
         public SettingPopup settingPopup;
+        public TextView subtitle;
+        public TextView title;
+        public ImageButton warning;
 
         public Holder(View itemView) {
             super(itemView);

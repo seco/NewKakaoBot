@@ -11,17 +11,16 @@ import org.mozilla.javascript.annotations.JSStaticFunction;
 public class JSUtil extends ScriptableObject {
     private static Context context;
 
-    public static void setContext(Context ctx) {
-        context = ctx;
-    }
-
     public JSUtil() {
         super();
     }
 
-    @Override
-    public String getClassName() {
-        return "Util";
+    @JSStaticFunction
+    public static ScriptableObject readData(String key) {
+        JSScriptEngine engine = KakaoTalkListener.getJsEngines()[0];
+
+        SharedPreferences preference = context.getSharedPreferences("script_data", Context.MODE_PRIVATE);
+        return (ScriptableObject) engine.getContext().javaToJS(preference.getString(key, ""), engine.getScope());
     }
 
     @JSStaticFunction
@@ -32,11 +31,12 @@ public class JSUtil extends ScriptableObject {
         editor.commit();
     }
 
-    @JSStaticFunction
-    public static ScriptableObject readData(String key) {
-        JSScriptEngine engine = KakaoTalkListener.getJsEngines()[0];
+    public static void setContext(Context ctx) {
+        context = ctx;
+    }
 
-        SharedPreferences preference = context.getSharedPreferences("script_data", Context.MODE_PRIVATE);
-        return (ScriptableObject) engine.getContext().javaToJS(preference.getString(key, ""), engine.getScope());
+    @Override
+    public String getClassName() {
+        return "Util";
     }
 }

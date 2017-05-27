@@ -1,6 +1,5 @@
 package com.astro.kakaobot;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,14 +15,13 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 
 public class SettingPopup extends PopupWindow {
-    private Type.Project project;
+    private MainActivity activity;
     private Context context;
     private ScrollView layout;
-    private MainActivity activity;
+    private Type.Project project;
 
     public SettingPopup(Type.Project project, MainActivity activity) {
         this.activity = activity;
@@ -55,10 +53,6 @@ public class SettingPopup extends PopupWindow {
         this.setOutsideTouchable(true);
     }
 
-    public void setProject(Type.Project project) {
-        this.project = project;
-    }
-
     public void initListener() {
         final TextInputEditText titleEdit = (TextInputEditText) layout.findViewById(R.id.title);
         final TextInputEditText subtitleEdit = (TextInputEditText) layout.findViewById(R.id.subtitle);
@@ -80,7 +74,7 @@ public class SettingPopup extends PopupWindow {
 
                     dismiss();
                     activity.reload();
-                } catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -94,7 +88,7 @@ public class SettingPopup extends PopupWindow {
 
                     dismiss();
                     activity.reload();
-                } catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -107,7 +101,7 @@ public class SettingPopup extends PopupWindow {
 
                     dismiss();
                     activity.reload();
-                } catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -148,5 +142,9 @@ public class SettingPopup extends PopupWindow {
                 activity.reloadProject(project);
             }
         });
+    }
+
+    public void setProject(Type.Project project) {
+        this.project = project;
     }
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.astro.kakaobot.MainActivity">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:fitsSystemWindows="true"
+                                                 tools:context="com.astro.kakaobot.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -17,23 +17,24 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main"
-        android:id="@+id/include" />
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_main"/>
 
     <LinearLayout
         android:id="@+id/fab_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|right"
-        android:padding="@dimen/fab_margin"
-        android:orientation="vertical"
-        android:gravity="center"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/fab_margin"
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="bottom|right">
 
@@ -42,15 +43,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            app:srcCompat="@drawable/ic_refresh_white_24dp"
-            app:fabSize="mini"/>
+            app:fabSize="mini"
+            app:srcCompat="@mipmap/ic_refresh_fab"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_add_white_24dp"
-            app:fabSize="normal"/>
+            app:fabSize="normal"
+            app:srcCompat="@mipmap/ic_add_fab"/>
 
     </LinearLayout>
 
