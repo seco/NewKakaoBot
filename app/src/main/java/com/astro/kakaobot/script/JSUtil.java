@@ -1,9 +1,9 @@
-package com.suyong.kakaobot.script;
+package com.astro.kakaobot.script;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.suyong.kakaobot.KakaoTalkListener;
+import com.astro.kakaobot.KakaoTalkListener;
 
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.annotations.JSStaticFunction;

@@ -1,4 +1,4 @@
-package com.suyong.kakaobot;
+package com.astro.kakaobot;
 
 public class Type {
     public static class Message {

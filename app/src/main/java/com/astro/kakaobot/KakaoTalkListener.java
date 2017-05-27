@@ -1,4 +1,4 @@
-package com.suyong.kakaobot;
+package com.astro.kakaobot;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -17,12 +17,8 @@ import android.text.SpannableString;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.suyong.kakaobot.script.JSScriptEngine;
-import com.suyong.kakaobot.script.PythonScriptEngine;
-/*
-import org.python.core.PyBoolean;
-import org.python.core.PyObject;
-import org.python.core.PyString;*/
+import com.astro.kakaobot.script.JSScriptEngine;
+import com.astro.kakaobot.script.PythonScriptEngine;
 
 import java.util.ArrayList;
 

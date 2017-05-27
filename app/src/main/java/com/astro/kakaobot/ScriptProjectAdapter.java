@@ -1,4 +1,4 @@
-package com.suyong.kakaobot;
+package com.astro.kakaobot;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;

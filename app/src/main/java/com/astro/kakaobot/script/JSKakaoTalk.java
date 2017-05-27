@@ -1,7 +1,7 @@
-package com.suyong.kakaobot.script;
+package com.astro.kakaobot.script;
 
-import com.suyong.kakaobot.KakaoTalkListener;
-import com.suyong.kakaobot.MainActivity;
+import com.astro.kakaobot.KakaoTalkListener;
+import com.astro.kakaobot.MainActivity;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ScriptableObject;

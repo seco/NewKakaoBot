@@ -1,4 +1,4 @@
-package com.suyong.kakaobot;
+package com.astro.kakaobot;
 
 import android.app.Activity;
 import android.content.Context;

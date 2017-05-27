@@ -1,8 +1,8 @@
-package com.suyong.kakaobot.script;
+package com.astro.kakaobot.script;
 
 import android.util.Log;
 
-import com.suyong.kakaobot.FileManager;
+import com.astro.kakaobot.FileManager;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;

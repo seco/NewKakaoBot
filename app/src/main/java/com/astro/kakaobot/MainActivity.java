@@ -1,4 +1,4 @@
-package com.suyong.kakaobot;
+package com.astro.kakaobot;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -35,9 +35,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.suyong.kakaobot.script.JSScriptEngine;
-import com.suyong.kakaobot.script.JSUtil;
-import com.suyong.kakaobot.script.PythonScriptEngine;
+import com.astro.kakaobot.script.JSScriptEngine;
+import com.astro.kakaobot.script.JSUtil;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -48,9 +47,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
-
-import static android.content.pm.PackageManager.PERMISSION_DENIED;
-import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_READ = 0;
@@ -65,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabAdd;
     private FloatingActionButton fabReload;
 
-    private ArrayList<Type.Project> projectList = new ArrayList<>();
+    private ArrayList<Type.Project> projects = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     RecyclerView recyclerView = (RecyclerView) findViewById(R.id.project_list);
                     ScriptProjectAdapter adapter = (ScriptProjectAdapter) recyclerView.getAdapter();
-                    adapter.setList(projectList);
+                    adapter.setList(projects);
                     Snackbar.make(fabContainer, getString(R.string.reloaded), Snackbar.LENGTH_LONG).show();
                 } catch(NullPointerException e) {
                     initRecyclerView();
@@ -128,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean hasPermissions(String[] permissions) {
         if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             for (String permission : permissions) {
-                if (checkSelfPermission(permission) == PERMISSION_DENIED) {
+                if (checkSelfPermission(permission) == PackageManager.PERMISSION_DENIED) {
                     return false;
                 }
             }
@@ -142,10 +138,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void reloadProject(Type.Project project) {
-        for(int i = 0; i < projectList.size(); i++) {
-            if(projectList.get(i).equals(project)) {
-                projectList.remove(i);
-                projectList.add(i, project);
+        for(int i = 0; i < projects.size(); i++) {
+            if(projects.get(i).equals(project)) {
+                projects.remove(i);
+                projects.add(i, project);
             }
             i++;
         }
@@ -185,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        ScriptProjectAdapter adapter = new ScriptProjectAdapter(projectList, this);
+        ScriptProjectAdapter adapter = new ScriptProjectAdapter(projects, this);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.project_list);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -197,11 +193,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initEngines() {
-        projectList = FileManager.getProjectList();
+        projects = FileManager.getProjectList();
         KakaoTalkListener.clearEngine();
 
         int i = 0;
-        for (Type.Project project : projectList) {
+        for (Type.Project project : projects) {
             if (!project.enable) {
                 switch (project.type) {
                     case JS:
@@ -214,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                             Snackbar.make(fabContainer, getString(R.string.file_not_found), Snackbar.LENGTH_SHORT).show();
                         } catch (Exception e) {
-                            projectList.get(i).isError = e.toString();
+                            projects.get(i).isError = e.toString();
                         }
                         break;
                     case PYTHON:/*
@@ -226,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                             Snackbar.make(fabContainer, getString(R.string.file_not_found), Snackbar.LENGTH_SHORT).show();
                         } catch (Exception e) {
-                            projectList.get(i).isError = e.toString();
+                            projects.get(i).isError = e.toString();
                         }*/
                         break;
                 }
@@ -300,13 +296,13 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_ALL:
-                if (grantResults[0] == PERMISSION_DENIED) {
+                if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,}, PERMISSION_READ);
                     Toast.makeText(this, getString(R.string.no_read_permission), Toast.LENGTH_SHORT).show();
                 }
                 break;
             case PERMISSION_READ:
-                if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     initEngines();
                     initRecyclerView();
                 } else {
@@ -315,14 +311,14 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case PERMISSION_WRITE:
-                if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // TODO
                 } else {
                     // TODO
                 }
                 break;
             case PERMISSION_INTERNET:
-                if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // TODO
                 } else {
                     // TODO

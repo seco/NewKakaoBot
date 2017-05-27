@@ -42,13 +42,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/type_python"
-            android:text="Python"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"/>
-
     </RadioGroup>
 
 </LinearLayout>
