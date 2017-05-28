@@ -54,7 +54,7 @@ public class ScriptProjectAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder originHolder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder originHolder, int position) {
         final Holder holder = (Holder) originHolder;
         final Type.Project project = list.get(position);
 
@@ -71,12 +71,8 @@ public class ScriptProjectAdapter extends RecyclerView.Adapter {
         holder.setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.settingPopup == null) {
-                    holder.settingPopup = new SettingPopup(list.get(position), activity);
-                }
-                holder.settingPopup.setProject(list.get(position));
-                holder.settingPopup.initListener();
-                holder.settingPopup.showAsDropDown(view);
+                Type.Project project = list.get(holder.getAdapterPosition());
+                new SettingsPopup(project, activity).showAsDropDown(view);
             }
         });
 
@@ -140,7 +136,6 @@ public class ScriptProjectAdapter extends RecyclerView.Adapter {
         public ImageView icon;
         public PopupWindow popup;
         public ImageButton setting;
-        public SettingPopup settingPopup;
         public TextView subtitle;
         public TextView title;
         public ImageButton warning;
@@ -148,8 +143,8 @@ public class ScriptProjectAdapter extends RecyclerView.Adapter {
         public Holder(View itemView) {
             super(itemView);
 
-            title = (TextView) itemView.findViewById(R.id.title);
-            subtitle = (TextView) itemView.findViewById(R.id.subtitle);
+            title = (TextView) itemView.findViewById(R.id.edit_title);
+            subtitle = (TextView) itemView.findViewById(R.id.edit_subtitle);
             icon = (ImageView) itemView.findViewById(R.id.image);
             setting = (ImageButton) itemView.findViewById(R.id.setting);
             warning = (ImageButton) itemView.findViewById(R.id.is_error);

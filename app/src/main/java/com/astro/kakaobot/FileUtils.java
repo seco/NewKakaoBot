@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class FileManager {
+public class FileUtils {
     private static final String PROJECT_DIRECTORY_PATH = "kakaobot";
     private static File PROJECT_DIRECTORY = new File(Environment.getExternalStorageDirectory(), PROJECT_DIRECTORY_PATH);
 

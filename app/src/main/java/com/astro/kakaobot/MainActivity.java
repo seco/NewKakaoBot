@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initEngines() {
-        projects = FileManager.getProjectList();
+        projects = FileUtils.getProjectList();
         KakaoTalkListener.clearEngine();
 
         int i = 0;
@@ -83,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
                     case JS:
                         JSScriptEngine jsScriptEngine = new JSScriptEngine();
                         try {
-                            jsScriptEngine.setScript(FileManager.getProjectScript(project));
-                            jsScriptEngine.setName((String) FileManager.readData(project, "title"));
+                            jsScriptEngine.setScript(FileUtils.getProjectScript(project));
+                            jsScriptEngine.setName((String) FileUtils.readData(project, "title"));
                             KakaoTalkListener.addJsEngine(jsScriptEngine);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
         context = this;
         JSUtil.setContext(this);
-        FileManager.init();
+        FileUtils.init();
 
         fabContainer = (LinearLayout) findViewById(R.id.fab_container);
 
@@ -176,17 +176,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem feedback = menu.findItem(R.id.action_feedback);
-        feedback.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:simssy2205@gmail.com"));
-                startActivity(intent);
-                return false;
-            }
-        });
+        return true;
+    }
 
-        return super.onCreateOptionsMenu(menu);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.action_about) {
+            startActivity(new Intent(this, AboutActivity.class));
+            return true;
+        } else if(id == R.id.action_feedback) {
+            startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:astr36@naver.com")));
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -306,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
                     project.type = type;
                     project.enable = true;
 
-                    FileManager.createProject(project);
+                    FileUtils.createProject(project);
                     initEngines();
                     initRecyclerView();
 
@@ -319,9 +324,7 @@ public class MainActivity extends AppCompatActivity {
         });
         dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // null
-            }
+            public void onClick(DialogInterface dialogInterface, int i) {}
         });
         dialog.show();
     }
